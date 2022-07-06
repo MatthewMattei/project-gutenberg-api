@@ -51,6 +51,7 @@ class pgAPI:
 
 
 
+
 test = "https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21"
 test1 = "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21"
 test2 = "https://www.gutenberg.org/ebooks/search/?query=Digters+uit+Suid-Afrika&submit_search=Go%21"
