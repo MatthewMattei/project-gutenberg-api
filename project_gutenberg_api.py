@@ -9,13 +9,19 @@ class pgAPI:
     def __init__(self):
         self.html_file = None
 
-    def quickSearch(self, url):
+    def pageLoader(self, url):
         try:
             page = requests.get(url)
             soup = BeautifulSoup(page.text, "html.parser")
+            return soup
         except ConnectionError:
             page = requests.get(url)
             return "Error, web request could not be made. Status code is: " + str(page.status_code)
+
+    def quickSearch(self, url):
+        soup = self.pageLoader(url)
+        if "Error, web request" in soup:
+            return soup
         listOfBooks = []
         #Note, the list is truncated, starting from index 2, to leave out unnecessary link information
         #Saves information in dictionary in the following manner: (book link, image link, title, author, downloads)
@@ -26,7 +32,14 @@ class pgAPI:
 
         return listOfBooks
 
+    def accessBook(self, url):
+        soup = self.pageLoader(url)
+        if "Error, web request" in soup:
+            return soup
+
+
 
 test = "https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21"
+
 
 print(pgAPI().quickSearch(test))
