@@ -20,8 +20,11 @@ class pgAPI:
         #Note, the list is truncated, starting from index 2, to leave out unnecessary link information
         #Saves information in dictionary in the following manner: (book link, image link, title, author, downloads)
         for link in soup.find_all('a', attrs={'href': re.compile("ebook")})[3:28]:
-            print(link.get('href'))
-            print(link.contents[1])
+            listOfBooks.append((link.get('href'),link.contents[1].contents[1].get("src"),
+                                link.contents[3].find("span", re.compile("title")).text,link.contents[3].find("span", re.compile("subtitle")).text,
+                               link.contents[3].find("span", re.compile("extra")).text))
+
+        return listOfBooks
 
 
 test = "https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21"
