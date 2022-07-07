@@ -75,6 +75,7 @@ class pgAPI:
             epubPlain = soup.find("a", class_="link", attrs={'href': re.compile("epub.noimages")})
         except:
             epubPlain = "EPUB book file without images cannot be found"
+        print(soup.find("div", id="more_stuff"))
 
 
 test1 = "https://www.gutenberg.org/ebooks/68462"
