@@ -8,8 +8,11 @@ from bs4 import BeautifulSoup
 class pgAPI:
     def __init__(self):
         self.html_file = None
+        self.tests = ["https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21",
+                   "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21",
+        "https://www.gutenberg.org/ebooks/search/?query=Digters+uit+Suid-Afrika&submit_search=Go%21"]
 
-    def pageLoader(self, url):
+    def _pageLoader(self, url):
         try:
             page = requests.get(url)
             soup = BeautifulSoup(page.text, "html.parser")
@@ -18,8 +21,14 @@ class pgAPI:
             page = requests.get(url)
             return "Error, web request could not be made. Status code is: " + str(page.status_code)
 
+    def testFunctionality(self, *args):
+        #args arguments exists to add further tests.
+        tests = self.tests + args
+        for link in tests:
+            print(self.quickSearch(link))
+
     def quickSearch(self, url):
-        soup = self.pageLoader(url)
+        soup = self._pageLoader(url)
         if "Error, web request" in soup:
             return soup
         listOfBooks = []
@@ -45,16 +54,6 @@ class pgAPI:
     #provide epub if possible - if not, provide html file, provide a similar books link, other book shelves, and
 
     def accessBook(self, url):
-        soup = self.pageLoader(url)
+        soup = self._pageLoader(url)
         if "Error, web request" in soup:
             return soup
-
-
-
-
-test = "https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21"
-test1 = "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21"
-test2 = "https://www.gutenberg.org/ebooks/search/?query=Digters+uit+Suid-Afrika&submit_search=Go%21"
-
-
-print(pgAPI().quickSearch(test2))
