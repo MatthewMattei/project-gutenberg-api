@@ -51,9 +51,32 @@ class pgAPI:
 
         return listOfBooks
 
-    #provide epub if possible - if not, provide html file, provide a similar books link, other book shelves, and
+    #provide cover, epub, and html file
+    #provide a similar books link to readers also downloaded
+    #provide title, return author, translator, original publication, and subject
 
     def accessBook(self, url):
         soup = self._pageLoader(url)
         if "Error, web request" in soup:
             return soup
+        try:
+            coverPicture = soup.find("img", class_="cover-art").get("src")
+        except:
+            coverPicture = "No cover available."
+        try:
+            html = soup.find("a", class_="link", attrs={'type': re.compile("html")}).get("href")
+        except:
+            html = "HTML book file cannot be found."
+        try:
+            epubImages = soup.find("a", class_="link", attrs={'href': re.compile("epub.images")})
+        except:
+            epubImages = "EPUB book file with images cannot be found."
+        try:
+            epubPlain = soup.find("a", class_="link", attrs={'href': re.compile("epub.noimages")})
+        except:
+            epubPlain = "EPUB book file without images cannot be found"
+        print(soup.find("div", id="more_stuff"))
+
+test1 = "https://www.gutenberg.org/ebooks/68462"
+
+pgAPI().accessBook(test1)
