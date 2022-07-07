@@ -75,6 +75,20 @@ class pgAPI:
             epubPlain = soup.find("a", class_="link", attrs={'href': re.compile("epub.noimages")})
         except:
             epubPlain = "EPUB book file without images cannot be found"
+        try:
+            alsoDownloaded = (soup.find("div", id="more_stuff").find("a", rel="nofollow").get("href"))
+        except:
+            alsoDownloaded = "Also downloaded link cannot be found"
+        bookAttrs = [coverPicture, html, epubImages, epubPlain, alsoDownloaded]
+        try:
+            author = soup.find("a", itemprop="creator").text
+        except:
+            author = "Author cannot be found"
+        try:
+            translator = soup.find("th", text=re.compile("Translator")).find_next_sibling().text
+        except:
+            translator = "No translator or no translator found."
+
 
 
 test1 = "https://www.gutenberg.org/ebooks/68462"
