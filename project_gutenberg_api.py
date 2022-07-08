@@ -44,9 +44,13 @@ class pgAPI:
                                 "author" : bookInfo.find(class_="subtitle").text,
                                 "download_count" : bookInfo.find(class_="extra").text})
         if listOfBooks:
-            return listOfBooks
+            try:
+                nextPageLink = soup.find_all(class_="statusline")[-1].find(title=re.compile("Go to")).get("href")
+            except:
+                nextPageLink = "No additional pages."
+            return (listOfBooks, nextPageLink)
         else:
-            return "No books found."
+            return ("No books found.", "No additional pages.")
 
     #provide cover, epub, and html file
     #provide a similar books link to readers also downloaded
@@ -88,7 +92,9 @@ class pgAPI:
 
 
 
-test1 = "https://www.gutenberg.org/ebooks/68462"
+test1 = "https://gutenberg.org/ebooks/1342"
+test2 = "https://www.gutenberg.org/ebooks/42302"
+test3 = ""
 
 tests = ["https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21",
                    "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21",
