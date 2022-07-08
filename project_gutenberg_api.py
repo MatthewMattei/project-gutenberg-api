@@ -34,22 +34,19 @@ class pgAPI:
         listOfBooks = []
         #Note, the list is truncated, starting from index 2, to leave out unnecessary link information
         #Saves information in dictionary in the following manner: (book link, image link, title, author, downloads)
-        searchList = soup.find_all('a', attrs={'href': re.compile("ebook")})
-        if len(searchList) <= 6:
-            return "No Results."
-        afterSortIndex = 26
-        for i in range(len(searchList)):
-            if searchList[i].get('href')[8] != "s":
-                afterSortIndex = i
-                break
-        for link in searchList[afterSortIndex:]:
-            if link.get('href')[8] == "s":
-                break
-            listOfBooks.append((link.get('href'),link.contents[1].contents[1].get("src"),
-                                link.contents[3].find("span", re.compile("title")).text,link.contents[3].find("span", re.compile("subtitle")).text,
-                                link.contents[3].find("span", re.compile("extra")).text))
-
-        return listOfBooks
+        searchList = soup.find_all(class_="booklink")
+        openURL = "gutenberg.org"
+        for bookInfo in searchList:
+            listOfBooks.append({"book_link" : openURL + bookInfo.find("a", href=re.compile("ebook")).get("href"),
+                                "image_link" : openURL + bookInfo.find("img").get("src"),
+                                #some titles on project gutenberg include \r, should it be removed?
+                                "title" : bookInfo.find(class_="title").text,
+                                "author" : bookInfo.find(class_="subtitle").text,
+                                "download_count" : bookInfo.find(class_="extra").text})
+        if listOfBooks:
+            return listOfBooks
+        else:
+            return "No books found."
 
     #provide cover, epub, and html file
     #provide a similar books link to readers also downloaded
@@ -93,4 +90,12 @@ class pgAPI:
 
 test1 = "https://www.gutenberg.org/ebooks/68462"
 
-pgAPI().accessBook(test1)
+tests = ["https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21",
+                   "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21",
+        "https://www.gutenberg.org/ebooks/search/?query=Digters+uit+Suid-Afrika&submit_search=Go%21"]
+
+abc = pgAPI()
+
+for i in tests:
+    print(abc.quickSearch((i)))
+
