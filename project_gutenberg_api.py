@@ -8,9 +8,6 @@ from bs4 import BeautifulSoup
 class pgAPI:
     def __init__(self):
         self.html_file = None
-        self.tests = ["https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21",
-                   "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21",
-        "https://www.gutenberg.org/ebooks/search/?query=Digters+uit+Suid-Afrika&submit_search=Go%21"]
 
     def _pageLoader(self, url):
         try:
@@ -21,13 +18,8 @@ class pgAPI:
             page = requests.get(url)
             return "Error, web request could not be made. Status code is: " + str(page.status_code)
 
-    def testFunctionality(self, *args):
-        #args arguments exists to add further tests.
-        tests = self.tests + args
-        for link in tests:
-            print(self.quickSearch(link))
-
     def quickSearch(self, url):
+
         soup = self._pageLoader(url)
         if "Error, web request" in soup:
             return soup
@@ -91,17 +83,5 @@ class pgAPI:
             translator = "No translator or no translator found."
 
 
-
-test1 = "https://gutenberg.org/ebooks/1342"
-test2 = "https://www.gutenberg.org/ebooks/42302"
-test3 = ""
-
-tests = ["https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21",
-                   "https://www.gutenberg.org/ebooks/search/?query=xajfafahnfkjawebfkaewbfga&submit_search=Go%21",
-        "https://www.gutenberg.org/ebooks/search/?query=Digters+uit+Suid-Afrika&submit_search=Go%21"]
-
 abc = pgAPI()
-
-for i in tests:
-    print(abc.quickSearch((i)))
 
