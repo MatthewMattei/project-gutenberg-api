@@ -65,14 +65,14 @@ class pgAPI:
         except:
             files = "No book files found."
         bookDetails["book_files"] = files
+        #TODO: add loop to add all bibliographic information to bookDetails, any duplicate sections must be put in list
         # try:
-        #     epubImages = soup.find("a", class_="link", attrs={'href': re.compile("epub.images")})
+        #     for author in soup.find_all(rel="marcrel:aut"):
+        #         authors.append(author.text)
         # except:
-        #     epubImages = "EPUB book file with images cannot be found."
-        # try:
-        #     epubPlain = soup.find("a", class_="link", attrs={'href': re.compile("epub.noimages")})
-        # except:
-        #     epubPlain = "EPUB book file without images cannot be found"
+        #     authors = "No author found."
+        # bookDetails["authors"] = authors
+        # print(authors)
         # try:
         #     alsoDownloaded = (soup.find("div", id="more_stuff").find("a", rel="nofollow").get("href"))
         # except:
