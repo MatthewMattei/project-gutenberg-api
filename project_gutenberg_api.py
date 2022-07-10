@@ -68,13 +68,20 @@ class pgAPI:
         except:
             files = "No book files found."
         bookDetails["book_files"] = files
+        similarBooks = "Similar Books not found."
+        try:
+            similarBooks = self.openURL+ soup.find(id="more_stuff").find(rel="nofollow").get("href")
+        except:
+            pass
+        bookDetails["similar_books"] = similarBooks
+        records = []
         try:
             for row in soup.find("table", class_="bibrec").find_all("tr")[:-1]:
                 if row.find("a") and row.find("a", href=re.compile("ebook")):
-                    print((row.find("th").text, self.formatting(row.find("td").text), self.openURL+row.find("a").get("href")))
+                    records.append((row.find("th").text, self.formatting(row.find("td").text), self.openURL+row.find("a").get("href")))
                 else:
-                    print((row.find("th").text, self.formatting(row.find("td").text)))
+                    records.append((row.find("th").text, self.formatting(row.find("td").text)))
         except:
-            print("Bibliographic record not found.")
-
-pgAPI().accessBook("https://gutenberg.org/ebooks/68462")
+            records = "Bibliographic record not found."
+        bookDetails["records"] = records
+        return bookDetails
