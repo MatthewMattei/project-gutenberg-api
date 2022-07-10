@@ -19,6 +19,9 @@ class pgAPI:
             page = requests.get(url)
             return "Error, web request could not be made. Status code is: " + str(page.status_code)
 
+    def formatting(self, str):
+        return "".join([s.strip() for s in str.splitlines()])
+
     def quickSearch(self, url):
 
         soup = self._pageLoader(url)
@@ -65,26 +68,13 @@ class pgAPI:
         except:
             files = "No book files found."
         bookDetails["book_files"] = files
-        #TODO: add loop to add all bibliographic information to bookDetails, any duplicate sections must be put in list
-        # try:
-        #     for author in soup.find_all(rel="marcrel:aut"):
-        #         authors.append(author.text)
-        # except:
-        #     authors = "No author found."
-        # bookDetails["authors"] = authors
-        # print(authors)
-        # try:
-        #     alsoDownloaded = (soup.find("div", id="more_stuff").find("a", rel="nofollow").get("href"))
-        # except:
-        #     alsoDownloaded = "Also downloaded link cannot be found"
-        # bookAttrs = [coverPicture, html, epubImages, epubPlain, alsoDownloaded]
-        # try:
-        #     author = soup.find("a", itemprop="creator").text
-        # except:
-        #     author = "Author cannot be found"
-        # try:
-        #     translator = soup.find("th", text=re.compile("Translator")).find_next_sibling().text
-        # except:
-        #     translator = "No translator or no translator found."
+        try:
+            for row in soup.find("table", class_="bibrec").find_all("tr")[:-1]:
+                if row.find("a") and row.find("a", href=re.compile("ebook")):
+                    print((row.find("th").text, self.formatting(row.find("td").text), self.openURL+row.find("a").get("href")))
+                else:
+                    print((row.find("th").text, self.formatting(row.find("td").text)))
+        except:
+            print("Bibliographic record not found.")
 
 pgAPI().accessBook("https://gutenberg.org/ebooks/68462")
