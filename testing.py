@@ -10,10 +10,15 @@ class functionalityTest(unittest.TestCase):
         for test in tests:
             print(sampleAPI.quickSearch(test))
 
-    # def test_access_book(self):
-    #     tests = ["https://gutenberg.org/ebooks/1342",
-    #              "https://www.gutenberg.org/ebooks/42302",
-    #              "https://gutenberg.org/ebooks/68462"]
-    #     sampleAPI = pgAPI()
-    #     for test in tests:
-    #         print(sampleAPI.accessBook(test))
+    def test_access_book(self):
+        tests = ["https://gutenberg.org/ebooks/1342",
+                 "https://www.gutenberg.org/ebooks/42302",
+                 "https://gutenberg.org/ebooks/68462"]
+        sampleAPI = pgAPI()
+        errorMessages = ["No cover available.", "No book files found.", "Similar Books not found.",
+                         "Bibliographic record not found."]
+        for test in tests:
+            testInfo = sampleAPI.accessBook(test)
+            print(testInfo)
+            for error in errorMessages:
+                self.assertFalse(error in testInfo.values())
