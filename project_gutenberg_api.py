@@ -115,6 +115,8 @@ class pgAPI:
         #to them being less applicable to an API meant to collect information from the Project Gutenberg site)
         #If bibliographic records are not found, the records variable is redefined as "Bibliographic record not found."
         try:
+            #-1 index is used to exclude the last row of the Bibliographic Record as it is always a note that
+            #doesn't specifically pertain to the book data.
             for row in soup.find("table", class_="bibrec").find_all("tr")[:-1]:
                 if row.find("a") and row.find("a", href=re.compile("ebook")):
                     records.append((row.find("th").text, self.formatting(row.find("td").text), self.openURL+row.find("a").get("href")))
