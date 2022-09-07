@@ -40,17 +40,17 @@
       <p class="center-justify">More information about the API can be found in the official Github repository
         <a href="https://github.com/MatthewMattei/project-gutenberg-api">here.</a>
       </p>
-      <form action="index.html" method="post">
+      <form action="/api" method="post">
         <div class="mb-3">
           <label class="form-label">Please select input type.</label>
           <div class="form-check">
-            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="queryRadio" checked>
+            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="queryRadio" value="searchTerm" checked>
             <label class="form-check-label" for="queryRadio">
               Search Term
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="bookRadio">
+            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" value="bookLink" id="bookRadio">
             <label class="form-check-label" for="bookRadio">
               Book Link
             </label>
@@ -58,14 +58,14 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Search Term</label>
-          <input id="searchInput" class="form-control" type="text" placeholder="Pride and Prejudice">
+          <input id="searchInput" class="form-control" type="text" placeholder="Pride and Prejudice" name="givenData">
         </div>
         <div class="mb-3">
           <label class="form-label">Book Link</label>
-          <input id="bookInput" class="form-control" type="text" placeholder="You can only test one input type at a time." disabled>
+          <input id="bookInput" class="form-control" type="text" placeholder="You can only test one input type at a time." name="givenData" disabled>
         </div>
         <div class="center-button">
-          <button type="submit" class="btn btn-primary move-button">Submit</button>
+          <button type="submit" value="SUBMIT" class="btn btn-primary move-button">Submit</button>
         </div>
       </form>
 

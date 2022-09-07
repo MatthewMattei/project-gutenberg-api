@@ -13,7 +13,7 @@ class pgAPI:
         self.openURL = "gutenberg.org"
 
     #Method to take a query and create the URL that leads to the query results.
-    def _createURL(self, query):
+    def createURL(self, query):
         encodedQuery = urllib.parse.quote(query)
         createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21"
         return createdURL
@@ -37,9 +37,10 @@ class pgAPI:
     #Method to query Project Gutenberg for books. Returns page data from the list of results.
     def quickSearch(self, url):
         #Loads webpage.
-        soup = self._pageLoader(url)
+        soup = self._pageLoader(self, url)
         if "Error, web request" in soup:
             return soup
+        self.openURL = url
         #List of search result data that will be returned.
         listOfBooks = []
 
@@ -51,10 +52,10 @@ class pgAPI:
         #Each dictionary holds information for one book.
         for bookInfo in searchList:
             listOfBooks.append({"book_link" : self.openURL + bookInfo.find("a", href=re.compile("ebook")).get("href"),
-                                "image_link" : self.openURL + bookInfo.find("img").get("src"),
+                                "image_link" : self.openURL + bookInfo.find("img").get("src") if bookInfo.find("img") != None else None,
                                 #Some titles on project gutenberg include \r; it is left in the titles.
                                 "title" : bookInfo.find(class_="title").text,
-                                "author" : bookInfo.find(class_="subtitle").text,
+                                "author" : bookInfo.find(class_="subtitle").text if bookInfo.find(class_="subtitle") != None else None,
                                 "download_count" : bookInfo.find(class_="extra").text})
         #Conditional statement that places the listOfBooks list into a tuple.
         if listOfBooks:
@@ -68,10 +69,10 @@ class pgAPI:
                 #another page of search results.
                 nextPageLink = "No additional pages."
             #A tuple of listOfBooks and the nextPageLink is returned if the search result includes any books.
-            return (listOfBooks, nextPageLink)
+            return (nextPageLink, listOfBooks)
         else:
             #Message "No books found." replaces the listOfBooks list if there aren't any books found in the search.
-            return ("No books found.", "No additional pages.")
+            return ("No additional pages.", "No books found.")
 
     #Method to pull book data:
     #Returns the book cover, all basic book files (excludes zip files, txt files, etc.),
@@ -80,9 +81,10 @@ class pgAPI:
     #Method takes a Project Gutenberg page of book data URL.
     def accessBook(self, url):
         #Loads webpage.
-        soup = self._pageLoader(url)
+        soup = self._pageLoader(self, url)
         if "Error, web request" in soup:
             return soup
+        self.openURL = url
         #Dictionary of book data that will be returned.
         bookDetails = {}
         #Key "coverPicture" is added to dictionary, value is the URL for the book cover image file if it can be foumd.
@@ -126,9 +128,9 @@ class pgAPI:
             #doesn't specifically pertain to the book data.
             for row in soup.find("table", class_="bibrec").find_all("tr")[:-1]:
                 if row.find("a") and row.find("a", href=re.compile("ebook")):
-                    records.append((row.find("th").text, self.formatting(row.find("td").text), self.openURL+row.find("a").get("href")))
+                    records.append((row.find("th").text, self.formatting(self, row.find("td").text), self.openURL+row.find("a").get("href")))
                 else:
-                    records.append((row.find("th").text, self.formatting(row.find("td").text)))
+                    records.append((row.find("th").text, self.formatting(self, row.find("td").text)))
         except:
             records = "Bibliographic record not found."
         #The "records" key is defined with records as the value.
