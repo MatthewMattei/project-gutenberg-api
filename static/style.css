@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.right-justify {
+  justify-content: right;
+}
+
+.center-justify {
+  text-align: center;
+}
+
+.move-button {
+  margin-top: 10px;
+}
+
+.center-button {
+  text-align: center;
+}
