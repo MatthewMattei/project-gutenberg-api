@@ -1,4 +1,5 @@
 import requests
+import urllib.parse
 import re
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -10,6 +11,12 @@ class pgAPI:
     def __init__(self):
         #openURL is defined as it is frequently used to flesh out partial URLs pulled from project Gutenberg.
         self.openURL = "gutenberg.org"
+
+    #Method to take a query and create the URL that leads to the query results.
+    def _createURL(self, query):
+        encodedQuery = urllib.parse.quote(query)
+        createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21"
+        return createdURL
 
     #Method to attempt to load web pages; it's independently defined for frequent re-use:
     #Returns page data if website connection is made. Otherwise, it throws a connection error and status code.

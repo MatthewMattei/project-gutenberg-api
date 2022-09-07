@@ -3,6 +3,8 @@ from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
+#TODO: Create two routes (one for searches one for book data)
+
 @app.route('/')
 def welcome():
     return render_template("index.html")
