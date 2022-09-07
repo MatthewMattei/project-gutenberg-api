@@ -16,4 +16,5 @@ def api():
         api = pgAPI()
         form_data = request.form
 
-#Test comment
+if __name__ == "__main__":
+    app.run(debug = True)
