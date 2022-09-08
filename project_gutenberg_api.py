@@ -120,7 +120,7 @@ class pgAPI:
         #similarBooks is changed to the URL of the search result page of the "Readers also downloaded..." page if
         #such a link can be found.
         try:
-            similarBooks = self.openURL+ soup.find(id="more_stuff").find(rel="nofollow").get("href")
+            similarBooks = self.openURL+ "/also/"
         except:
             pass
         #The "similar_books" key is defined with similarBooks as the value.
