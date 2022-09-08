@@ -1,20 +1,16 @@
 from project_gutenberg_api import pgAPI
 from flask import Flask, jsonify, render_template, request
 
-error_message = "Sorry, there was an error. Please check the format of the data you entered and try again."
-
 app = Flask(__name__)
-
-#TODO: jsonify encodes some special characters - check to ensure they don't endanger functionality
 
 @app.route('/')
 def welcome():
     return render_template("index.html")
 
-
 @app.route('/api', methods = ["POST", "GET"])
 @app.route("/api/<string:dataType>/<path:givenData>")
 def api(dataType = None, givenData = None):
+    error_message = jsonify("Sorry, there was an error. Please check the format of the data you entered and try again.")
     api = pgAPI()
     if dataType == "searchLink":
         remainingLink = givenData
