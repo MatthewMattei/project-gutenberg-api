@@ -1,20 +1,44 @@
 var listOfRadioButtons = document.getElementsByClassName("radio-button");
+var searchTermInput = document.getElementById('searchTermInput');
+var bookInput = document.getElementById('bookInput');
+var searchLinkInput = document.getElementById('searchLinkInput');
+var bookRadio = document.getElementById('bookRadio')
+var queryTermRadio = document.getElementById('queryTermRadio')
+var queryLinkRadio = document.getElementById('queryLinkRadio')
+var defaultPlaceholder = "You can only test one input type at a time.";
+var enabledOption;
+var disabledOption1;
+var disabledOption2;
+
+function disableInputBox(option){
+    option.setAttribute("disabled", true);
+    option.value = "";
+    option.setAttribute("placeholder", defaultPlaceholder);
+}
 
 for (i = 0; i < listOfRadioButtons.length; i++){
   listOfRadioButtons[i].onclick = function () {
-    if (document.getElementById('bookRadio').checked){
-        document.getElementById('bookInput').removeAttribute("disabled");
-        document.getElementById('bookInput').setAttribute("placeholder", "https://www.gutenberg.org/")
-        document.getElementById('searchInput').setAttribute("disabled", true);
-        document.getElementById('searchInput').value = ""
-        document.getElementById('searchInput').setAttribute("placeholder", "You can only test one input type at a time.")
+    if (bookRadio.checked){
+        enabledOption = bookInput;
+        disabledOption1 = searchTermInput;
+        disabledOption2 = searchLinkInput;
+        enabledOption.setAttribute("placeholder", "https://www.gutenberg.org/ebooks/1342");
+
+      }
+    else if (queryLinkRadio.checked){
+        enabledOption = searchLinkInput;
+        disabledOption1 = searchTermInput;
+        disabledOption2 = bookInput;
+        enabledOption.setAttribute("placeholder", "https://www.gutenberg.org/ebooks/search/?query=pride+and+prejudice&submit_search=Go%21");
       }
     else {
-        document.getElementById('searchInput').removeAttribute("disabled");
-        document.getElementById('searchInput').setAttribute("placeholder", "Pride and Prejudice")
-        document.getElementById('bookInput').setAttribute("disabled", true);
-        document.getElementById('bookInput').value = ""
-        document.getElementById('bookInput').setAttribute("placeholder", "You can only test one input type at a time.")
-      }
+        enabledOption = searchTermInput;
+        disabledOption1 = searchLinkInput;
+        disabledOption2 = bookInput;
+        enabledOption.setAttribute("placeholder", "Pride and Prejudice");
+    }
+    enabledOption.removeAttribute("disabled");
+    disableInputBox(disabledOption1);
+    disableInputBox(disabledOption2);
   }
 }

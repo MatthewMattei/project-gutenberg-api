@@ -13,9 +13,9 @@ class pgAPI:
         self.openURL = "gutenberg.org"
 
     #Method to take a query and create the URL that leads to the query results.
-    def createURL(self, query):
+    def createURL(self, query, index = 1):
         encodedQuery = urllib.parse.quote(query)
-        createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21"
+        createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21&start_index=" + index
         return createdURL
 
     #Method to attempt to load web pages; it's independently defined for frequent re-use:
@@ -37,7 +37,7 @@ class pgAPI:
     #Method to query Project Gutenberg for books. Returns page data from the list of results.
     def quickSearch(self, url):
         #Loads webpage.
-        soup = self._pageLoader(self, url)
+        soup = self._pageLoader(url)
         if "Error, web request" in soup:
             return soup
         self.openURL = url
@@ -81,7 +81,7 @@ class pgAPI:
     #Method takes a Project Gutenberg page of book data URL.
     def accessBook(self, url):
         #Loads webpage.
-        soup = self._pageLoader(self, url)
+        soup = self._pageLoader(url)
         if "Error, web request" in soup:
             return soup
         self.openURL = url
@@ -128,9 +128,9 @@ class pgAPI:
             #doesn't specifically pertain to the book data.
             for row in soup.find("table", class_="bibrec").find_all("tr")[:-1]:
                 if row.find("a") and row.find("a", href=re.compile("ebook")):
-                    records.append((row.find("th").text, self.formatting(self, row.find("td").text), self.openURL+row.find("a").get("href")))
+                    records.append((row.find("th").text, self.formatting(row.find("td").text), self.openURL+row.find("a").get("href")))
                 else:
-                    records.append((row.find("th").text, self.formatting(self, row.find("td").text)))
+                    records.append((row.find("th").text, self.formatting(row.find("td").text)))
         except:
             records = "Bibliographic record not found."
         #The "records" key is defined with records as the value.

@@ -33,32 +33,45 @@
     </div>
   </nav>
 
-  <!-- Jumbotron & Forms -->
+  <!-- Jumbotron -->
   <div class="container py-4">
     <div class="h-100 p-5 text-bg-dark rounded-3">
       <h1 class="center-justify"> The API can be tested using the form below.</h1>
       <p class="center-justify">More information about the API can be found in the official Github repository
         <a href="https://github.com/MatthewMattei/project-gutenberg-api">here.</a>
       </p>
+      <!-- Form -->
       <form action="/api" method="post">
         <div class="mb-3">
+          <!-- Radio buttons -->
           <label class="form-label">Please select input type.</label>
           <div class="form-check">
-            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="queryRadio" value="searchTerm" checked>
-            <label class="form-check-label" for="queryRadio">
+            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="queryTermRadio" value="searchTerm" checked>
+            <label class="form-check-label" for="queryTermRadio">
               Search Term
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" value="bookLink" id="bookRadio">
+            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="queryLinkRadio" value="searchLink">
+            <label class="form-check-label" for="queryLinkRadio">
+              Search Link
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input radio-button" type="radio" name="inputTypeRadio" id="bookRadio" value="bookLink">
             <label class="form-check-label" for="bookRadio">
               Book Link
             </label>
           </div>
         </div>
+        <!-- Input Boxes-->
         <div class="mb-3">
           <label class="form-label">Search Term</label>
-          <input id="searchInput" class="form-control" type="text" placeholder="Pride and Prejudice" name="givenData">
+          <input id="searchTermInput" class="form-control" type="text" placeholder="Pride and Prejudice" name="givenData">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Search Link</label>
+          <input id="searchLinkInput" class="form-control" type="text" placeholder="You can only test one input type at a time." name="givenData" disabled>
         </div>
         <div class="mb-3">
           <label class="form-label">Book Link</label>
