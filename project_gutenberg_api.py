@@ -11,12 +11,21 @@ class pgAPI:
     def __init__(self):
         #openURL is defined as it is frequently used to flesh out partial URLs pulled from project Gutenberg.
         self.openURL = "gutenberg.org"
+        self.genericURL = "https://www.gutenberg.org"
 
     #Method to take a query and create the URL that leads to the query results.
-    def createURL(self, query, index = 1):
+    def createURL(self, query):
         encodedQuery = urllib.parse.quote(query)
-        createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21&start_index=" + index
+        createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21"
         return createdURL
+
+    def reconstructSearchURL(self, remainingLink, term, index):
+        index = str(index)
+        finalLink = remainingLink + "?query=" + term + "&submit_search=Go%21&start_index=" + index
+        return finalLink
+
+    def constructWholeURL(self, bookURL):
+        return "https://www.gutenberg.org/" + bookURL
 
     #Method to attempt to load web pages; it's independently defined for frequent re-use:
     #Returns page data if website connection is made. Otherwise, it throws a connection error and status code.
@@ -51,8 +60,8 @@ class pgAPI:
         #(book link, image link, title, author, downloads)
         #Each dictionary holds information for one book.
         for bookInfo in searchList:
-            listOfBooks.append({"book_link" : self.openURL + bookInfo.find("a", href=re.compile("ebook")).get("href"),
-                                "image_link" : self.openURL + bookInfo.find("img").get("src") if bookInfo.find("img") != None else None,
+            listOfBooks.append({"book_link" : self.genericURL + bookInfo.find("a", href=re.compile("ebook")).get("href"),
+                                "image_link" : self.genericURL + bookInfo.find("img").get("src") if bookInfo.find("img") != None else None,
                                 #Some titles on project gutenberg include \r; it is left in the titles.
                                 "title" : bookInfo.find(class_="title").text,
                                 "author" : bookInfo.find(class_="subtitle").text if bookInfo.find(class_="subtitle") != None else None,
@@ -63,7 +72,7 @@ class pgAPI:
             #it is always the last element of the list of search results, even if any results aren't found), the link
             #to the next page of search results is placed into the tuple with the listOfBooks list.
             try:
-                nextPageLink = soup.find_all(class_="statusline")[-1].find(title=re.compile("Go to")).get("href")
+                nextPageLink = self.genericURL + soup.find_all(class_="links")[-1].find(title=re.compile("next")).get("href")
             except:
                 #Message "No additional pages." replaces a link to another page of search results if there isn't
                 #another page of search results.

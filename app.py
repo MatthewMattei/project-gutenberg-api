@@ -12,31 +12,42 @@ def welcome():
     return render_template("index.html")
 
 
-@app.route('/api', methods = ['POST', 'GET'])
-def api():
-    if request.method == "GET":
-        return "Error, API accessed directly."
-    if request.method == "POST":
-        api = pgAPI()
+@app.route('/api', methods = ["POST", "GET"])
+@app.route("/api/<string:dataType>/<path:givenData>")
+def api(dataType = None, givenData = None):
+    print(givenData)
+    api = pgAPI()
+    if dataType == "searchLink":
+        remainingLink = givenData
+        term = request.args.get("query")
+        index = request.args.get("start_index")
+        if index == None:
+            index = 1
+        givenData = api.reconstructSearchURL(remainingLink, term, index)
+    try:
         form_data = request.form
-        if form_data["inputTypeRadio"] == "searchTerm":
-            try:
-                url = api.createURL(form_data["givenData"])
-                json_arr = api.quickSearch(url)
-                return jsonify(json_arr)
-            except:
-                return error_message
-        elif form_data["inputTypeRadio"] == "searchLink":
-            try:
-                json_arr = api.quickSearch(form_data["givenData"])
-                return jsonify(json_arr)
-            except:
-                return error_message
-        else:
-            try:
-                return jsonify(api.accessBook(form_data["givenData"]))
-            except:
-                return error_message
+        dataType = form_data["inputTypeRadio"]
+        givenData = form_data["givenData"]
+    except:
+        pass
+    if dataType == "searchTerm":
+        try:
+            url = api.createURL(givenData)
+            json_arr = api.quickSearch(url)
+            return jsonify(json_arr)
+        except:
+            return error_message
+    elif dataType == "searchLink":
+        try:
+            json_arr = api.quickSearch(givenData)
+            return jsonify(json_arr)
+        except:
+            return error_message
+    else:
+        try:
+            return jsonify(api.accessBook(givenData))
+        except:
+            return error_message
 
 if __name__ == "__main__":
     app.run(debug = True)
