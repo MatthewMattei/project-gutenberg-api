@@ -5,7 +5,7 @@ error_message = "Sorry, there was an error. Please check the format of the data 
 
 app = Flask(__name__)
 
-#Note, jsonify encodes some special characters
+#TODO: jsonify encodes some special characters - check to ensure they don't endanger functionality
 
 @app.route('/')
 def welcome():

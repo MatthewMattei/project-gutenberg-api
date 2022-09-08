@@ -10,8 +10,8 @@ class pgAPI:
     #initialization of API,
     def __init__(self):
         #openURL is defined as it is frequently used to flesh out partial URLs pulled from project Gutenberg.
-        self.openURL = "gutenberg.org"
         self.genericURL = "https://www.gutenberg.org"
+        self.openURL = self.genericURL
 
     #Method to take a query and create the URL that leads to the query results.
     def createURL(self, query):
