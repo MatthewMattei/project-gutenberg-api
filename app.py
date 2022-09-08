@@ -15,7 +15,6 @@ def welcome():
 @app.route('/api', methods = ["POST", "GET"])
 @app.route("/api/<string:dataType>/<path:givenData>")
 def api(dataType = None, givenData = None):
-    print(givenData)
     api = pgAPI()
     if dataType == "searchLink":
         remainingLink = givenData
