@@ -1,25 +1,28 @@
+/* Various styling for API Testing page.*/
+
+/* Gets rid of space between navbar and top of the screen. */
 body {
   margin: 0;
   padding: 0;
 }
 
+/* Pulls navbar title and logos closer to center. */
 .navbar {
   padding-left: 10%;
   padding-right: 10%;
 }
 
-.right-justify {
-  justify-content: right;
-}
-
+/* Centers some text in the jumbotron on the API Testing page. */
 .center-justify {
   text-align: center;
 }
 
+/* Moves submit button further from the bottom input box.  */
 .move-button {
   margin-top: 10px;
 }
 
+/* Centers submit button. */
 .center-button {
   text-align: center;
 }

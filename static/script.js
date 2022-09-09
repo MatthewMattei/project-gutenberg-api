@@ -1,3 +1,6 @@
+//Script purpose is to disable all input boxes on API Testing page except the input box associated with the checked radio button.
+
+//Variable Declarations
 var listOfRadioButtons = document.getElementsByClassName("radio-button");
 var searchTermInput = document.getElementById('searchTermInput');
 var bookInput = document.getElementById('bookInput');
@@ -10,12 +13,14 @@ var enabledOption;
 var disabledOption1;
 var disabledOption2;
 
+//Function to disable an input box.
 function disableInputBox(option){
     option.setAttribute("disabled", true);
     option.value = "";
     option.setAttribute("placeholder", defaultPlaceholder);
 }
 
+//Loop to put listeners on every radio button that will enable the input box of the checked radio button and disable the rest.
 for (i = 0; i < listOfRadioButtons.length; i++){
   listOfRadioButtons[i].onclick = function () {
     if (bookRadio.checked){

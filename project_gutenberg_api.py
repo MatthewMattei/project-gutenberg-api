@@ -1,29 +1,32 @@
 import requests
 import urllib.parse
 import re
-from datetime import datetime
 from bs4 import BeautifulSoup
 
-#API for making quick searches on Project Gutenberg and returning specific book data.
+#API class with functions to scrape search result and book data from Project Gutenberg.
 
 class pgAPI:
-    #initialization of API,
+    #initialization of API
     def __init__(self):
-        #openURL is defined as it is frequently used to flesh out partial URLs pulled from project Gutenberg.
+        #URL variables
+        #Used to fix/alter URLs
         self.genericURL = "https://www.gutenberg.org"
+        #Used to store current URL
         self.openURL = self.genericURL
 
-    #Method to take a query and create the URL that leads to the query results.
+    #Method to take a search term and create the URL that leads to the search results.
     def createURL(self, query):
         encodedQuery = urllib.parse.quote(query)
         createdURL = "https://www.gutenberg.org/ebooks/search/?query=" + encodedQuery + "&submit_search=Go%21"
         return createdURL
 
+    #Method to stitch together a search result link, taken from a direct access url call, that was broken up by Flask.
     def reconstructSearchURL(self, remainingLink, term, index):
         index = str(index)
         finalLink = remainingLink + "?query=" + term + "&submit_search=Go%21&start_index=" + index
         return finalLink
 
+    #Method to create a whole, searchable URL from scraped data.
     def constructWholeURL(self, bookURL):
         return "https://www.gutenberg.org/" + bookURL
 
@@ -114,15 +117,9 @@ class pgAPI:
             files = "No book files found."
         #Key "book_files" is added to dictionary, the files variable is defined as the value of the key.
         bookDetails["book_files"] = files
-        #similarBooks is the variable that will be assigned as the value for the "similar_books" key. It is defined as
-        #"Similar Books not found." by default.
-        similarBooks = "Similar Books not found."
-        #similarBooks is changed to the URL of the search result page of the "Readers also downloaded..." page if
-        #such a link can be found.
-        try:
-            similarBooks = self.openURL+ "/also/"
-        except:
-            pass
+        #similarBooks is the variable that will be assigned as the value for the "similar_books" key. It is a link to
+        #a list of books, similar to a search result page.
+        similarBooks = self.openURL+ "/also/"
         #The "similar_books" key is defined with similarBooks as the value.
         bookDetails["similar_books"] = similarBooks
         #records is the list of the book's bibliographic record table's rows.

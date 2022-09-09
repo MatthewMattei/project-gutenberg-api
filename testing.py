@@ -1,6 +1,8 @@
 import unittest
 from project_gutenberg_api import pgAPI
 
+#Testing file for pgAPI class functions
+
 class functionalityTest(unittest.TestCase):
     def test_quick_search(self):
         tests = ["https://www.gutenberg.org/ebooks/search/?query=&submit_search=Go%21",
