@@ -3,7 +3,7 @@ This repository contains the code for scraping Project Gutenberg search result a
 
 The link to the API Testing page (deployed on Heroku): [API](https://matthews-project-gutenberg-api.herokuapp.com/)
 
-API Sample of search results for: [Pride and Prejudice](https://matthews-project-gutenberg-api.herokuapp.com/api/searchTerm/pride%20and%20prejudice)
+API sample of search results for: [Pride and Prejudice](https://matthews-project-gutenberg-api.herokuapp.com/api/searchTerm/pride%20and%20prejudice)
 
 ![PNG](https://github.com/MatthewMattei/project-gutenberg-api/blob/master/GithubAssets/APITesting.png)
 
