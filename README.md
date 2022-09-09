@@ -1,5 +1,5 @@
 # Project Gutenberg API
-This repository contains the code for scraping Project Gutenberg search result and book download pages for individual book details including, but not limited to, book titles, the number of book downloads, and the book download links. Full information on exactly what data can be retrieved, and the documentation to do so, can be found below.
+This repository contains the code for a REST API that scrapes Project Gutenberg search result and book download pages for individual book details including, but not limited to, book titles, the number of book downloads, and the book download links. Full information on exactly what data can be retrieved, and the documentation to do so, can be found below.
 
 The link to the API Testing page (deployed on Heroku): [API](https://matthews-project-gutenberg-api.herokuapp.com/)
 
