@@ -1,16 +1,12 @@
 # Project Gutenberg API
 This repository contains the code for a REST API that scrapes Project Gutenberg search result and book download pages for individual book details including, but not limited to, book titles, the number of book downloads, and the book download links. Full information on exactly what data can be retrieved, and the documentation to do so, can be found below.
 
-The link to the API Testing page (deployed on Heroku): [API](https://matthews-project-gutenberg-api.herokuapp.com/)
-
-API sample of search results for: [Pride and Prejudice](https://matthews-project-gutenberg-api.herokuapp.com/api/searchTerm/pride%20and%20prejudice)
-
 ![PNG](https://github.com/MatthewMattei/project-gutenberg-api/blob/master/GithubAssets/APITesting.png)
 
 ## API Usage Documentation
 To directly access the API rather than using the testing form, a URL needs to be entered in the following format:
 ```
-https://matthews-project-gutenberg-api.herokuapp.com/api/<dataType>/<givenData>
+https://<API Host>/api/<dataType>/<givenData>
 ```
 `dataType` is a string that clarifies how to handle the data given to the API. <br>
 
@@ -25,15 +21,15 @@ The format of entered data is specific to the dataType that is defined: <br>
 
 `searchTerm` takes any string. <br>
 Example entry: `Pride and Prejudice` <br>
-Full URL search example: `https://matthews-project-gutenberg-api.herokuapp.com/api/searchTerm/pride%20and%20prejudice` <br>
+Full URL search example: `https://<API Host>/api/searchTerm/pride%20and%20prejudice` <br>
 
 `searchLink` takes a url in the format `https://www.gutenberg.org/ebooks/search/?query=<Some search parameter here>&submit_search=Go%21&start_index=<Some index here>` <br>
 Example entry: `https://www.gutenberg.org/ebooks/search/?query=pride+and+prejudice&submit_search=Go%21&start_index=1` <br>
-Full URL search example: `https://matthews-project-gutenberg-api.herokuapp.com/api/searchLink/https://www.gutenberg.org/ebooks/search/?query=pride+and+prejudice&submit_search=Go%21&start_index=1` <br>
+Full URL search example: `https://<API Host>/api/searchLink/https://www.gutenberg.org/ebooks/search/?query=pride+and+prejudice&submit_search=Go%21&start_index=1` <br>
 
 `bookLink` takes a url in the format `https://www.gutenberg.org/ebooks/<Some book value here>` <br>
 Example entry: `https://www.gutenberg.org/ebooks/1260` <br>
-Full URL search example: `https://matthews-project-gutenberg-api.herokuapp.com/api/bookLink/https://www.gutenberg.org/ebooks/1260` <br>
+Full URL search example: `https://<API Host>/api/bookLink/https://www.gutenberg.org/ebooks/1260` <br>
 
 ## API Data Documentation
 API calls for `searchTerm` and `searchLink` both return the same types of data and in the same format:
